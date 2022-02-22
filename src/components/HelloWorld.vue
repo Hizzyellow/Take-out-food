@@ -9,19 +9,19 @@
 </template>
 
 <script>
-import Header from './header/header.vue'
+import Header from './header/header.vue';
 export default {
   name: 'HelloWorld',
   data () { // 注册一个
     return {
       msg: 'Welcome Hizzyellow',
       hizz: '1111111'
-    }
+    };
   },
   components: {
     Header
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

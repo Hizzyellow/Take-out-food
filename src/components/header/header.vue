@@ -1,9 +1,14 @@
 <template>
-  <div>11111111111212314</div>
+  <div class="header">
+    我是header
+  </div>
 </template>
 
 <script>
+  export default{
+
+  };
 </script>
 
-<style>
+<style lang="stylus" rel="stylesheet/stylus">
 </style>
