@@ -1,0 +1,21 @@
+border-1px($color)
+  position :relative
+  &::after
+    display :block
+    position :absolute
+    width :100%
+    left:0
+    botton:0
+    border-top :1px solid $color
+    content :' '
+
+bordertop-1px($color)
+  position :relative
+  &::before
+    display :block
+    position :absolute
+    width :100%
+    left:0
+    botton:0
+    border-top :1px solid $color
+    content :' '
