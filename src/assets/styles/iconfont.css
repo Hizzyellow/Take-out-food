@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3213385 */
+  src: url-loader('iconfont.eot?t=1646143005994'); /* IE9 */
+  src: url-loader('iconfont.eot?t=1646143005994#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url-loader('iconfont.woff2?t=1646143005994') format('woff2'),
+       url-loader('iconfont.woff?t=1646143005994') format('woff'),
+       url-loader('iconfont.ttf?t=1646143005994') format('truetype'),
+       url-loader('iconfont.svg?t=1646143005994#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-a-16-23_fuzhi-06:before {
+  content: "\e609";
+}
