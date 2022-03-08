@@ -26,3 +26,13 @@ body , html
   line-height :1
   font-size :200
   font-family :'PingFang SC','STHeitiSC-Light','Helvetica-light',arial,sans-serif // 这里是一些字体的样式
+
+.clearfix//通过CSS伪元素在容器的内部元素之后添加一个看不见的空格“/20”或点“.” ，并且设置clear属性清除浮动。
+  display :inline-block
+  &:after //新建一个after伪元素
+    display :block
+    content : "."
+    height :0
+    line-height :0
+    clear :both
+    visibility :hidden
