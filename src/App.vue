@@ -30,22 +30,6 @@
             // console.log(this.seller);
           }
       });
-      this.$http.get('/api/goods').then((response) => {
-        response = response.body;
-        console.log(response);
-        if (response.errno === ERR_OK) {
-          this.goods = response.data;
-          // console.log(this.goods);
-        }
-      });
-      this.$http.get('/api/ratings').then((response) => {
-        response = response.body;
-        console.log(response);
-        if (response.errno === ERR_OK) {
-          this.ratings = response.data;
-          // console.log(this.ratings);
-        }
-      });
     },
     components: {
      'v-header': header
