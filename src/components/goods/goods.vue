@@ -34,17 +34,22 @@
         </li>
       </ul>
     </div>
+    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll';
+  import shopcart from 'components/shopcart/shopcart.vue';
   const ERR_OK = 0;
   export default{
     props: {// 这里是接受来自App.vue的seller
       seller: {
         type: Object
       }
+    },
+    components: {
+      shopcart
     },
     data () {
       return {
