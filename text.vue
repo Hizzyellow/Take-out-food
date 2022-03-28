@@ -1,6 +1,5 @@
 <template>
-    <div>
-      <div class="shopcart">
+    <div class="shopcart">
         <div class="content" @click="toggleList">
             <div class="content-left">
                 <div class="logo-wrapper">
@@ -14,7 +13,7 @@
                 </div>
                 <div class="deliver">另需配送费￥{{deliveryPrice}}元</div>
             </div>
-            <div class="content-right" @click.stop.prevent="pay">
+            <div class="content-right">
               <div class="pay" :class="payClass">
                 {{pays}}
               </div>
@@ -29,38 +28,29 @@
                 </transition>
               </div>
         </div>
-        <transition name="fold">
-            <div class="shopcart-list" v-show="listShow">
-            <div class="list-header">
-              <h1 class="title">购物车</h1>
-              <span class="empty" @click="empty">清空</span>
-            </div>
-            <div class="list-content" ref="listContent">
-              <ul>
-                <!-- 这里的selectFoods是从good.vue传进来的 -->
-                <li class="food" v-for="food in selectFoods" :key="food.index">
-                  <span class="name">{{food.name}}</span>
-                  <div class="price">
-                    <span>￥{{food.count*food.price}}</span>
-                  </div>
-                  <div class="cartconcrol-wrapper">
-                    <cartcontrol :food="food"></cartcontrol>
-                    <!-- 拿到加减图片样式 传值进去cartcontrol组件,这样才可以在购物车详情页点击图片实现加减类似的做法 -->
-                  </div>
-                </li>
-              </ul>
-            </div>
+        <div class="shopcart-list" v-show="listShow">
+          <div class="list-header">
+            <h1 class="title">购物车</h1>
+            <span class="empty">清空</span>
           </div>
-        </transition>
-      </div>
-      <transition name="fade">
-        <div class="list-mask" v-show="listShow" @click="hideList"></div>
-      </transition>
+          <div class="list-content">
+            <ul>
+              <li class="food" v-for="food in selectFoods" :key="food.index">
+                <span class="name">{{food.name}}</span>
+                <div class="price">
+                  <span>￥{{food.count*food.price}}</span>
+                </div>
+                <div class="cartconcrol-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
     </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll';
 import cartcontrol from 'components/cartcontrol/cartcontrol.vue';
 export default {
   data () {
@@ -83,7 +73,7 @@ export default {
         }
       ],
       dropballs: [],
-      listShow: false
+      fold: true
     };
   },
   methods: {
@@ -143,22 +133,7 @@ export default {
       if (!this.totalCount) {
         return;
       }
-      this.listShow = !this.listShow;
-    },
-    empty () {
-      this.selectFoods.forEach((food) => {
-        food.count = 0;
-        this.listShow = false; // 当food中count清零后,这个时候listShow还是为true,这里要手动设置为false,整个详情页面就会消失
-      });
-    },
-    hideList () {
-      this.listShow = false; // 当点击的时候就重新设置为false,整个详情页面就会消失
-    },
-    pay () {
-      if (this.totalPrice < this.minPrice) {
-        return;
-      }
-      window.alert(`需要支付${this.totalPrice}元`);
+      this.fold = !this.fold;
     }
   },
   props: {
@@ -209,36 +184,23 @@ export default {
       } else {
         return 'enough';
       }
+    },
+    listShow () {
+      if (!this.totalCount) {
+          this.fold = true;
+          return false;
+        }
+        let show = !this.fold;
+        return show;
     }
   },
   components: {
     cartcontrol
-  },
-  watch: {
-    listShow: function () {
-      let show = this.listShow;
-      if (!this.totalCount) {
-        return show;
-      }
-      if (show) {
-        this.$nextTick(() => {
-          if (!this.scroll) { // 如果没有this.scroll就新建一个
-            this.scroll = new BScroll(this.$refs.listContent, {
-              click: true // 这里也要使点击,因为我们阻止了原生事件的点击
-            });
-          } else {
-            this.scroll.refresh(); // 如果有的话就调用一个refresh(刷新)的接口,能过重新渲染视口的高度差
-          }
-        });
-      }
-      return show;
-    }
   }
 };
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-@import '../../common/stylus/mixin.styl';
   .shopcart
     position: fixed //可以给这个组件绝对定位
     left: 0
@@ -342,75 +304,4 @@ export default {
             border-radius: 50%
             background: rgb(0,160,220)
             transition: all 0.8s
-    .shopcart-list
-      position: absolute // 绝对定位相对于shopcart
-      left: 0
-      top: 0
-      z-index: -1 // 创建层叠上下文
-      width: 100%
-      transform: translate3d(0,-100%,0) // 整个列表相对于当前自身的高度做一个偏移
-      &.fold-enter-active, &.fold-leave-active
-        transition:  all 0.5s // 这里是transition..
-        transform: translate3d(0,-100%,0) // 每个表项相对于当前自身的高度做一个偏移
-      &.fold-enter, &.fold-leave-active
-        transform: translate3d(0,0,0)
-      .list-header
-        height: 40px
-        line-height: 40px
-        padding: 0 18px
-        background: #f3f5f7
-        border-bottom: 1px solid rgba(7,17,27,0.1)
-        .title
-          float: left // 左边浮动 这样才能放在一行内
-          font-size: 14px
-          font-weight: 200
-          color: rgb(7,17,27)
-          line-height: 40px
-        .empty
-          float: right // 右边浮动 这样才能放在一行内
-          font-size: 12px
-          color: rgb(0,160,220)
-          line-height: 40px
-      .list-content
-        padding: 0 18px
-        max-height: 217px
-        overflow: hidden
-        background: #fff
-        .food
-          position: relative
-          padding: 12px 0
-          box-sizing: border-box
-          border-1px(rgba(7,17,27,0.1))
-          .name
-            line-height: 24px
-            font-size: 14px
-            color: rgb(7,17,27)
-          .price
-            position: absolute
-            right: 90px
-            bottom: 12px
-            line-height: 24px
-            font-size: 14px
-            font-weight: 700
-            color: rgb(240,20,20)
-          .cartconcrol-wrapper
-            position: absolute
-            right: 0
-            bottom: 1px
-  .list-mask
-    position: fixed //相对于窗口定位
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    z-index: 40
-    background: rgba(7,17,27,0.6) // 没有这个的话只是出来的一瞬间有黑色,往后就没有了
-    backdrop-filter: blur(10px) // 10像素模糊背景
-    &.fade-enter-active, &.fade-leave-active
-      opacity: 1
-      transition: all 0.5s
-      background: rgba(7,17,27,0.6)
-    &.fade-enter, &.fade-leave-active // 如果没有这三行代码的话,画面就不会顺畅,等购物车详情页消失后再黑色页面再消失,且没有渐变效果
-      opacity: 0
-      background: rgba(7,17,27,0)
 </style>

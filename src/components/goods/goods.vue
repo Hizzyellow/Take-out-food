@@ -28,19 +28,23 @@
                 <div class="price">
                   <span class="now">¥{{foods.price}}</span><span class="old" v-show="foods.oldPrice">¥{{foods.oldPrice}}</span>
                 </div>
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol @cart-add="_drop" :food="foods"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
+    <shopcart ref="shopcart" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :select-foods="selectFoods"></shopcart>
   </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll';
   import shopcart from 'components/shopcart/shopcart.vue';
+  import cartcontrol from 'components/cartcontrol/cartcontrol.vue';
   const ERR_OK = 0;
   export default{
     props: {// 这里是接受来自App.vue的seller
@@ -49,7 +53,8 @@
       }
     },
     components: {
-      shopcart
+      shopcart,
+      cartcontrol
     },
     data () {
       return {
@@ -69,6 +74,20 @@
           }
         }
         return 0;
+      },
+      selectFoods () {
+        let foods = [];
+        let Arr = Array.from(this.goods); // this.goods是一个类数组,不是一个真正的数据,用Array.from可以将类数组对象转换成真正的数组
+        // console.log(Arr);
+        Arr.forEach((good) => {
+          good.foods.forEach((food) => { // food的price就是从这里传进去shopcart
+            // console.log(food.count);
+            if (food.count) { // 如果count值大于0
+              foods.push(food);
+            }
+          });
+        });
+        return foods;
       }
     },
     created () {
@@ -80,6 +99,7 @@
             this._initScroll();
             this._calculateHeight();
           });
+          // console.log(this.goods);
         }
       });
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
@@ -89,7 +109,7 @@
         if (!event._constructed) {
           return;
         }
-        console.log(index);
+        // console.log(index);
         let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook'); // 取得foodList这一个dom 所有列表
         let el = foodList[index]; // 滚动到相应列表
         this.foodsScroll.scrollToElement(el, 300); // 页面滚动到el,300ms为滚动时间
@@ -118,7 +138,18 @@
           this.listHeight.push(height); // 方每一个高度放进数组(递增数组)
           // console.log(this.listHeight);
         }
+      },
+      _drop (target) {
+        // 异步执行下落动画,优化体验
+        this.$nextTick(() => {
+          this.$refs.shopcart.drop(target); // 访问子组件
+        });
       }
+    },
+    events: { // 接收来自cartcontrol派发的事件
+        'cart.add' (target) {
+          this._drop(target); // 把target值传进_drop方法
+        }
     }
   };
 </script>
@@ -224,4 +255,8 @@
               text-decoration :line-through//这个是在文字中间划过一条横线
               font-size :10px
               color :rgb(147,153,159)
+          .cartcontrol-wrapper
+            position: absolute
+            right: 0
+            bottom: 12px
 </style>
