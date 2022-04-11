@@ -44,7 +44,7 @@
                     <span>￥{{food.count*food.price}}</span>
                   </div>
                   <div class="cartconcrol-wrapper">
-                    <cartcontrol :food="food"></cartcontrol>
+                    <cartcontrol :food="food" @cart-add="handlecartAdd"></cartcontrol>
                     <!-- 拿到加减图片样式 传值进去cartcontrol组件,这样才可以在购物车详情页点击图片实现加减类似的做法 -->
                   </div>
                 </li>
@@ -159,6 +159,9 @@ export default {
         return;
       }
       window.alert(`需要支付${this.totalPrice}元`);
+    },
+    handlecartAdd () {
+      this.$emit('cart-add', event.target); // 派发事件
     }
   },
   props: {

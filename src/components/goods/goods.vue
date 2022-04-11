@@ -15,7 +15,7 @@
         <li v-for="item in goods" :key="item.index" class="food-list food-list-hook">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="foods in item.foods" :key="foods.index" class="food-item border-1px">
+            <li @click="selectFood(foods,$event)" v-for="foods in item.foods" :key="foods.index" class="food-item border-1px">
               <div class="icon">
                 <img width="57" height="57" :src="foods.icon" >
               </div>
@@ -37,7 +37,8 @@
         </li>
       </ul>
     </div>
-    <shopcart ref="shopcart" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :select-foods="selectFoods"></shopcart>
+    <shopcart @cart-add="_drop" ref="shopcart" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice" :select-foods="selectFoods"></shopcart>
+    <food :foods="selectedFood" ref="food" @cart-add="_drop"></food>
   </div>
 </template>
 
@@ -45,8 +46,9 @@
   import BScroll from 'better-scroll';
   import shopcart from 'components/shopcart/shopcart.vue';
   import cartcontrol from 'components/cartcontrol/cartcontrol.vue';
+  import food from 'components/food/food.vue';
   const ERR_OK = 0;
-  export default{
+  export default {
     props: {// 这里是接受来自App.vue的seller
       seller: {
         type: Object
@@ -54,13 +56,15 @@
     },
     components: {
       shopcart,
-      cartcontrol
+      cartcontrol,
+      food
     },
     data () {
       return {
         goods: {}, // 一开始为空,然后下面的在引入data.json
         listHeight: [], // 存列表高度
-        scrollY: 0 // 监视右边的数据
+        scrollY: 0, // 监视右边的数据
+        selectedFood: {} // 已选择的数组
       };
     },
     computed: {
@@ -114,6 +118,13 @@
         let el = foodList[index]; // 滚动到相应列表
         this.foodsScroll.scrollToElement(el, 300); // 页面滚动到el,300ms为滚动时间
       },
+      selectFood (foods, _event) {
+        if (!event._constructed) {
+          return;
+        }
+        this.selectedFood = foods;
+        this.$refs.food.show(); // 调用子组件的show方法
+      },
       _initScroll () {
         this.menuScroll = new BScroll(this.$refs.menuWrapper, { // 新建一个实例
           click: true // 初始化better-scroll要传一个属性,就是click 因为BS会监听一些touchstart,end,会阻止到一些默认,简单来说就是一开始的click是false
@@ -147,7 +158,7 @@
       }
     },
     events: { // 接收来自cartcontrol派发的事件
-        'cart.add' (target) {
+        'cart-add' (target) {
           this._drop(target); // 把target值传进_drop方法
         }
     }

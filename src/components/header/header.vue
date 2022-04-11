@@ -86,7 +86,7 @@
       };
     },
     methods: {
-      showDetail () { // 终重点
+      showDetail () { // 重点
         this.detailShow = true;
       },
       hideDetail () {
