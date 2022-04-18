@@ -157,7 +157,7 @@
         });
       }
     },
-    events: { // 接收来自cartcontrol派发的事件
+    events: { // 接收来自cartcontrol,food,shopcart派发的事件
         'cart-add' (target) {
           this._drop(target); // 把target值传进_drop方法
         }
