@@ -32,7 +32,7 @@
           </li>
         </ul>
         <div class="favorite">
-          <span class="iconfont icon-plus-circle" :class="{'active':favorite}" @click="toggleFavorite($event)"></span>
+          <span class="iconfont icon-xiai" :class="{'active':favorite}" @click="toggleFavorite($event)"></span>
           <span class="text">{{favoriteText}}</span>
         </div>
       </div>
@@ -216,7 +216,7 @@ export default {
         right: 11px
         top: 18px
         text-align: center
-        .icon-plus-circle
+        .icon-xiai
           display: block
           margin-bottom: 4px
           font-size: 24px

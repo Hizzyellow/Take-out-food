@@ -5,7 +5,7 @@
             <div class="content-left">
                 <div class="logo-wrapper">
                     <div class="logo" :class="{'highlight':totalCount>0}">
-                        <i class=" iconfont icon-minus-circle" :class="{'highlight':totalCount>0}"></i>
+                        <i class=" iconfont icon-gouwucheman" :class="{'highlight':totalCount>0}"></i>
                     </div>
                     <div class="num" v-show="totalCount>0">{{totalCount}}</div>
                 </div>
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     drop (el) {
-      console.log(el); // 验证是否能够正确输出
+      // console.log(el); // 验证是否能够正确输出
       for (let i = 0; i < this.balls.length; i++) {
         let ball = this.balls[i];
         if (!ball.show) {
@@ -288,7 +288,7 @@ export default {
             background: #2b343c //黑灰色
             &.highlight // 加上highlight
               background-color: rgb(0,160,240) // 图标变蓝色
-            .icon-minus-circle
+            .icon-gouwucheman
               line-height: 44px
               font-size: 24px
               color: #80858a

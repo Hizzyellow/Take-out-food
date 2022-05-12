@@ -19,13 +19,13 @@
       </div>
       <div v-if="seller.supports" class="support-count" @click="showDetail">
         <span class="count">{{seller.supports.length}}个</span>
-        <i class="icon-a-16-23_fuzhi-06"></i>
+        <i class="iconfont icon-youjiantou"></i>
       </div>
     </div>
     <div class="bulletin-wrapper" @click="showDetail">
       <span class="bulletin-title"></span><span class="bulletin-text">{{seller.bulletin}}</span>
       <!-- 两个span靠在一起就没有留白像素 ,正常来说是有留白像素的-->
-      <i class="icon-a-16-23_fuzhi-06"></i>
+      <i class="iconfont icon-youjiantou"></i>
     </div>
     <div class="background">
       <img :src="seller.avatar" width="100%" height="100%">
@@ -62,7 +62,7 @@
           </div>
         </div>
         <div class="detail-close" @click="hideDetail">
-          <i class="icon-a-16-23_fuzhi-06"></i>
+          <i class="iconfont icon-chahao"></i>
         </div>
       </div>
     </transition>
@@ -176,7 +176,7 @@
         text-align :center
         .count
           font-size :0.625rem
-        .icon-a-16-23_fuzhi-06
+        .icon-youjiantou
           font-size :0.625rem
     .bulletin-wrapper
       // vertical-align :top
@@ -203,7 +203,7 @@
         font-weight :200 //字体宽度
         line-height :1.75rem
         padding :0 0.25rem //上下,右左
-      .icon-a-16-23_fuzhi-06//这里又显示不出来
+      .icon-youjiantou
         position :absolute //小箭头的绝对定位
         font-size :0.625rem
         right :10px //从右边移过来10像素

@@ -6,7 +6,7 @@
           <span @click="select(1,$event)" class="block negative" :class="{'active':typeSelected === 1}">{{desc.negative}}<span class="count">{{negatives.length}}</span></span>
       </div>
       <div class="switch">
-          <span class="iconfont icon-plus-circle" @click="toggleContent($event)" :class="{'on':contOnly}"></span>
+          <span class="iconfont icon-dagouyouquan" @click="toggleContent($event)" :class="{'on':contOnly}"></span>
           <span class="text">只看有内容的评价</span>
       </div>
   </div>
@@ -116,7 +116,7 @@ export default {
     border-bottom: 1px solid rgba(7,17,27,0.1)
     color: rgb(147,153,159)
     font-size: 0
-    .icon-plus-circle
+    .icon-dagouyouquan
       font-size: 18px
       margin-right: 4px
       &.on
