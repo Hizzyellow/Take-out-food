@@ -304,4 +304,24 @@ export default {
             border-radius: 50%
             background: rgb(0,160,220)
             transition: all 0.8s
+    .pics
+      padding: 18px
+      .title
+        margin-bottom: 12px
+        line-height: 14px
+        color: rgb(7, 17, 27)
+        font-size: 14px
+      .pic-wrapper
+        width: 100%
+        overflow: hidden
+        white-space: nowrap /*不产生折行*/
+        .pic-list
+          font-size: 0
+          .pic-item
+            display: inline-block
+            margin-right: 6px
+            width: 120px
+            height: 90px
+            &:last-child
+              margin: 0
 </style>
