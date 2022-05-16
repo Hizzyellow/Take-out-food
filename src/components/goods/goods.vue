@@ -47,6 +47,7 @@
   import shopcart from 'components/shopcart/shopcart.vue';
   import cartcontrol from 'components/cartcontrol/cartcontrol.vue';
   import food from 'components/food/food.vue';
+  const response = require('../../common/data/goods.json');
   const ERR_OK = 0;
   export default {
     props: {// 这里是接受来自App.vue的seller
@@ -95,18 +96,25 @@
       }
     },
     created () {
-      this.$http.get('/api/goods').then((response) => {
-        response = response.body;
-        if (response.errno === ERR_OK) {
-          this.goods = response.data;
-          this.$nextTick(() => {
-            this._initScroll();
-            this._calculateHeight();
-          });
-          // console.log(this.goods);
-        }
-      });
+      // this.$http.get('/api/goods').then((response) => {
+      //   response = response.body;
+      //   if (response.errno === ERR_OK) {
+      //     this.goods = response.data;
+      //     this.$nextTick(() => {
+      //       this._initScroll();
+      //       this._calculateHeight();
+      //     });
+      //     // console.log(this.goods);
+      //   }
+      // });
       this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee'];
+      if (response.errno === ERR_OK) {
+        this.goods = response.data;
+        this.$nextTick(() => {
+          this._initScroll();
+          this._calculateHeight();
+        });
+      }
     },
     methods: {
       selectMenu (index, _event) {

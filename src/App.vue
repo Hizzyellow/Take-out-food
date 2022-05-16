@@ -15,6 +15,8 @@
 <script>
   import header from './components/header/header.vue';
   import {urlParse} from 'common/js/until.js';
+  const response = require('./common/data/seller.json');
+
   const ERR_OK = 0;
   export default {
     data () {
@@ -30,16 +32,27 @@
         ratings: {}
       };
     },
+    // created () {
+    //   this.$http.get('/api/seller?id=' + this.seller.id).then((response) => {
+    //       response = response.body;
+    //       console.log(response);
+    //       if (response.errno === ERR_OK) {
+    //         this.seller = Object.assign({}, this.seller, response.data); // 为该对象扩展属性就是往data.json里面的数据加上一些自己写的
+    //         // console.log(this.seller);
+    //         // console.log(this.seller.id); // 这样输出就不会undefined了
+    //       }
+    //   });
+    // },
     created () {
-      this.$http.get('/api/seller?id=' + this.seller.id).then((response) => {
-          response = response.body;
-          console.log(response);
-          if (response.errno === ERR_OK) {
-            this.seller = Object.assign({}, this.seller, response.data); // 为该对象扩展属性就是往data.json里面的数据加上一些自己写的
-            // console.log(this.seller);
-            // console.log(this.seller.id); // 这样输出就不会undefined了
-          }
-      });
+      // this.$http.get('/api/seller?id=' + this.seller.id).then((response) => {
+      //   response = response.body;
+      //   if (response.errno === ERR_OK) {
+      //     this.seller = Object.assign({}, this.seller, response.data);
+      //   }
+      // });
+      if (response.errno === ERR_OK) {
+        this.seller = Object.assign({}, this.seller, response.data);
+      }
     },
     components: {
      'v-header': header

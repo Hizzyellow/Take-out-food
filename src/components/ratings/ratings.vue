@@ -59,6 +59,7 @@ import star from 'components/star/star.vue';
 import split from 'components/split/split.vue';
 import ratingselect from 'components/ratingselect/ratingselect.vue';
 import {formatDate} from 'common/js/date.js';
+const response = require('../../common/data/ratings.json');
 const POSITIVE = 0;
 const NEGATIVE = 1;
 const ALL = 2;
@@ -87,9 +88,18 @@ export default{
     ratingselect
   },
   created () {
-    this.$http.get('/api/ratings').then((response) => {
-      response = response.data;
-      if (response.errno === ERR_OK) {
+    // this.$http.get('/api/ratings').then((response) => {
+    //   response = response.data;
+    //   if (response.errno === ERR_OK) {
+    //     this.ratings = response.data;
+    //     this.$nextTick(() => {
+    //       this.scroll = new BScroll(this.$refs.ratings, {
+    //         click: true
+    //       });
+    //     });
+    //   }
+    // });
+    if (response.errno === ERR_OK) {
         this.ratings = response.data;
         this.$nextTick(() => {
           this.scroll = new BScroll(this.$refs.ratings, {
@@ -97,7 +107,6 @@ export default{
           });
         });
       }
-    });
   },
   methods: {
     change (type) {
